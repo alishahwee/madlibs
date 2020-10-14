@@ -9,27 +9,38 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 
 AWESOMENESS = [
-    'awesome', 'terrific', 'fantastic', 'neato', 'fantabulous', 'wowza',
-    'oh-so-not-meh', 'brilliant', 'ducky', 'coolio', 'incredible', 'wonderful',
-    'smashing', 'lovely',
+    "awesome",
+    "terrific",
+    "fantastic",
+    "neato",
+    "fantabulous",
+    "wowza",
+    "oh-so-not-meh",
+    "brilliant",
+    "ducky",
+    "coolio",
+    "incredible",
+    "wonderful",
+    "smashing",
+    "lovely",
 ]
 
 
-@app.route('/')
+@app.route("/")
 def start_here():
     """Display homepage."""
 
     return "Hi! This is the home page."
 
 
-@app.route('/hello')
+@app.route("/hello")
 def say_hello():
     """Say hello to user."""
 
     return render_template("hello.html")
 
 
-@app.route('/greet')
+@app.route("/greet")
 def greet_person():
     """Greet user with compliment."""
 
@@ -37,12 +48,22 @@ def greet_person():
 
     compliment = choice(AWESOMENESS)
 
-    return render_template("compliment.html",
-                           person=player,
-                           compliment=compliment)
+    return render_template("compliment.html", person=player, compliment=compliment)
 
 
-if __name__ == '__main__':
+@app.route("/game")
+def show_madlib_form():
+    """Show madlib form based on user request."""
+
+    answer_value = request.args.get("answer")
+
+    if answer_value == "No":
+        return render_template("goodbye.html")
+    elif answer_value == "Yes":
+        return render_template("game.html")
+
+
+if __name__ == "__main__":
     # Setting debug=True gives us error messages in the browser and also
     # "reloads" our web app if we change the code.
 
